@@ -11,3 +11,18 @@ Karena Huawei DCS tidak menyediakan integrasi langsung dengan `virt-who`, kita a
 | RHEL + virt-who        | Huwawei DCS Host(s)                | RHEL Guest VMs    | 
 | :--------------------- | :--------------------------------- | :-------------    |
 | (manual mapping file)  | (FusionCompute)                    | (VM01, VM02, ...) |
+
+## 1. Daftarkan RHEL ke Red Hat Subscription Manager
+```zsh
+sudo subscription-manager register
+```
+Masukkan Red Hat Customer Portal credentials.
+
+Lalu, attach subscription:
+```zsh
+sudo subscription-manager attach --auto
+```
+Verifikasi:
+```zsh
+sudo subscription-manager status
+```
