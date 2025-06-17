@@ -122,3 +122,85 @@ INFO: Reporting mapping for host 'huawei-dcs-node-1' and guest '12345678-1234-56
 ```zsh
 sudo journalctl -u virt-who
 ```
+
+
+
+# ✅ LANGKAH KONFIGURASI DI SETIAP VM RHEL (Agar Bisa Gunakan Repo Resmi)
+
+## 1. Pastikan VM Terkoneksi ke Internet
+Minimal bisa curl `https://cdn.redhat.com`
+Jika pakai proxy/firewall, pastikan outbound port 443 (HTTPS) ke Red Hat dibuka.
+
+## 2. Daftarkan VM ke Red Hat Subscription Manager
+```zsh
+sudo subscription-manager register --auto-attach
+```
+- Jangan khawatir, meskipun kamu tidak attach manual, RHSM akan otomatis menempelkan VDC subscription jika `virt-who` sudah kirim mapping host-guest yang valid.
+- Jika ditanya username/password, masukkan yang sama seperti di `virt-who` server.
+
+## 3. Verifikasi Status Subscription
+```zsh
+sudo subscription-manager status
+```
+Jika berhasil, harusnya keluar seperti ini:
+```zsh
+Overall Status: Current
+```
+Lalu:
+```zsh
+sudo subscription-manager list --consumed
+```
+Harusnya terlihat sesuatu seperti:
+```zsh
+Subscription Name: Red Hat Enterprise Linux for Virtual Datacenters
+```
+
+## 4. Aktifkan Repositori Sesuai Kebutuhan
+Contoh: Untuk RHEL 9
+```zsh
+sudo subscription-manager repos --enable=rhel-9-for-x86_64-baseos-rpms
+sudo subscription-manager repos --enable=rhel-9-for-x86_64-appstream-rpms
+```
+Untuk RHEL 8:
+```zsh
+sudo subscription-manager repos --enable=rhel-8-for-x86_64-baseos-rpms
+sudo subscription-manager repos --enable=rhel-8-for-x86_64-appstream-rpms
+```
+
+## 5. Update dan Uji Repo
+```zsh
+sudo dnf clean all
+sudo dnf repolist
+sudo dnf update -y
+```
+Harusnya muncul daftar repos resmi Red Hat seperti:
+```zsh
+repo id                               repo name
+rhel-9-for-x86_64-baseos-rpms        Red Hat Enterprise Linux 9 for x86_64 - BaseOS
+rhel-9-for-x86_64-appstream-rpms     Red Hat Enterprise Linux 9 for x86_64 - AppStream
+```
+## ⚠️ Jika `subscription-manager` register Gagal
+Beberapa hal yang perlu dicek:
+- Apakah `virt-who` sudah mengirim mapping ke RHSM (cek log `virt-who`)
+- Apakah VM bisa `ping` atau `curl` ke `cdn.redhat.com`
+- Coba register ulang pakai username/password jika `--auto-attach` gagal
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
