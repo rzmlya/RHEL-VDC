@@ -64,3 +64,51 @@ Ganti `your_org_id` dengan output dari perintah:
 ```zsh
 subscription-manager identity
 ```
+
+## 6. Buat File Mapping JSON
+Misalnya kamu punya 3 VM RHEL di host Huawei bernama huawei-dcs-node-1, dengan UUID VM sebagai berikut:
+```zsh
+# Dijalankan dalam masing-masing VM RHEL
+sudo dmidecode -s system-uuid
+```
+Contoh `/etc/virt-who.d/huawei-mapping.json`:
+```json
+[
+  {
+    "guestId": "12345678-1234-5678-1234-567812345678",
+    "hostId": "huawei-dcs-node-1"
+  },
+  {
+    "guestId": "23456789-2345-6789-2345-678923456789",
+    "hostId": "huawei-dcs-node-1"
+  },
+  {
+    "guestId": "34567890-3456-7890-3456-789034567890",
+    "hostId": "huawei-dcs-node-1"
+  }
+]
+```
+
+## 7. Set Hak Akses File
+```zsh
+sudo chmod 600 /etc/virt-who.d/huawei.conf
+sudo chmod 600 /etc/virt-who.d/huawei-mapping.json
+```
+
+## 8. Enable dan Jalankan `virt-who`
+```zsh
+sudo systemctl enable virt-who
+sudo systemctl start virt-who
+```
+
+## 9. Cek Log untuk Verifikasi
+```zsh
+sudo tail -f /var/log/virt-who/virt-who.log
+```
+Pastikan log menunjukkan tidak ada error dan mapping berhasil dikirim.
+Contoh log berhasil:
+```zsh
+INFO: Reporting mapping for host 'huawei-dcs-node-1' and guest '12345678-1234-5678-1234-567812345678'
+```
+
+## 10. Verifikasi di Red Hat Customer Portal (atau Satellite)
