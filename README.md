@@ -8,7 +8,6 @@ Karena Huawei DCS tidak menyediakan integrasi langsung dengan `virt-who`, kita a
 
 ## 🧱 Arsitektur Sistem
 
-+-----------------------+ +--------------------+ +------------------+
-| RHEL + virt-who | <---> | Huawei DCS Host(s) | <---> | RHEL Guest VMs |
-| (manual mapping file) | | (FusionCompute) | | (VM01, VM02, ...)|
-+-----------------------+ +--------------------+ +------------------+
+| RHEL + virt-who        | Huwawei DCS Host(s)                | RHEL Guest VMs    | 
+| :--------------------- | :--------------------------------- | :-------------    |
+| (manual mapping file)  | (FusionCompute)                    | (VM01, VM02, ...) |
