@@ -112,3 +112,13 @@ INFO: Reporting mapping for host 'huawei-dcs-node-1' and guest '12345678-1234-56
 ```
 
 ## 10. Verifikasi di Red Hat Customer Portal (atau Satellite)
+- Buka https://access.redhat.com
+- Masuk ke menu Subscriptions > Systems
+- Pilih salah satu guest RHEL → pastikan ada mapping ke Hypervisor
+
+## 📌 Tips Tambahan
+- Pastikan timezone server 'virt-who' sinkron dengan NTP ('timedatectl status')
+- Jika ingin debug lebih lanjut:
+```zsh
+sudo journalctl -u virt-who
+```
