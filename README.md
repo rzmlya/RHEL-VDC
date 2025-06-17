@@ -26,3 +26,5 @@ Verifikasi:
 ```zsh
 sudo subscription-manager status
 ```
+
+## 2. Install `virt-who`
